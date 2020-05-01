@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export LC_ALL=C
+
 opdir="derivatives"
 src=(MC IIPC Merged)
 profile=(HxPx HxP1 H3P0 H1P0 DDom DSub DPth DQry DIni)
