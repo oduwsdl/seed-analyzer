@@ -131,6 +131,6 @@ if __name__ == "__main__":
     kg = KeyGenerator(sys.argv[1])
     for line in fileinput.input(sys.argv[2:]):
         try:
-            print(kg.generate_key(line.strip()))
+            print(kg.generate_key(line.strip()) or "-")
         except:
             print(f"SKIPPING: {line}", file=sys.stderr)
