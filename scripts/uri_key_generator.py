@@ -15,6 +15,7 @@ class KeyGenerator(object):
         """Initialize a basic archive profile object."""
         self.policy_map = {
             "HmPn": self._hmpn,
+            "DSuf": self._dsuf,
             "DDom": self._ddom,
             "DSub": self._dsub,
             "DPth": self._dpth,
@@ -45,9 +46,15 @@ class KeyGenerator(object):
         return self._suburi(surt(url), max_host_segments=self.options["max_host_segments"], max_path_segments=self.options["max_path_segments"])
 
 
+    def _dsuf(self, url):
+        ext = tldextract.extract(url)
+        suf = surt(ext.suffix)
+        if suf[0].isalpha() and ")/" in suf:
+            return suf
+
+
     def _ddom(self, url):
         ext = tldextract.extract(url)
-        urlseg = urlparse("http://" + url)
         reg_dom = surt(ext.registered_domain)
         if reg_dom[0].isalpha() and ")/" in reg_dom:
             return reg_dom
@@ -55,7 +62,6 @@ class KeyGenerator(object):
 
     def _dsub(self, url):
         ext = tldextract.extract(url)
-        urlseg = urlparse("http://" + url)
         reg_dom = surt(ext.registered_domain)
         if reg_dom[0].isalpha() and ")/" in reg_dom:
             subdom_len = 0
@@ -66,7 +72,7 @@ class KeyGenerator(object):
 
     def _dpth(self, url):
         ext = tldextract.extract(url)
-        urlseg = urlparse("http://" + url)
+        urlseg = urlparse(url)
         reg_dom = surt(ext.registered_domain)
         if reg_dom[0].isalpha() and ")/" in reg_dom:
             subdom_len = path_len = 0
@@ -79,7 +85,7 @@ class KeyGenerator(object):
 
     def _dqry(self, url):
         ext = tldextract.extract(url)
-        urlseg = urlparse("http://" + url)
+        urlseg = urlparse(url)
         reg_dom = surt(ext.registered_domain)
         if reg_dom[0].isalpha() and ")/" in reg_dom:
             subdom_len = path_len = query_len = 0
@@ -94,7 +100,7 @@ class KeyGenerator(object):
 
     def _dini(self, url):
         ext = tldextract.extract(url)
-        urlseg = urlparse("http://" + url)
+        urlseg = urlparse(url)
         reg_dom = surt(ext.registered_domain)
         if reg_dom[0].isalpha() and ")/" in reg_dom:
             subdom_len = path_len = query_len = 0
@@ -130,7 +136,10 @@ if __name__ == "__main__":
 
     kg = KeyGenerator(sys.argv[1])
     for line in fileinput.input(sys.argv[2:]):
+        url = line.strip()
+        if not url.startswith("http://") and not url.startswith("https://"):
+            url = "http://" + url
         try:
-            print(kg.generate_key(line.strip()) or "-")
+            print(kg.generate_key(url) or "-")
         except:
             print(f"SKIPPING: {line}", file=sys.stderr)

@@ -19,7 +19,7 @@ opdir=${3:-derivatives}
 
 # Configurable options
 src=(MC IIPC Merged)
-profile=(HxPx HxP1 H3P0 H1P0 DDom DSub DPth DQry DIni)
+profile=(HxPx HxP1 H3P0 H1P0 DSuf DDom DSub DPth DQry DIni)
 weight=(1.00 0.50 0.10 0.05 0.01)
 
 log "Creating output directory (if missing): $opdir"
