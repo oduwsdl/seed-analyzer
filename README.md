@@ -12,71 +12,73 @@ $ pip install tldextract surt
 Then run the analyzer script with optional arguments as shown below:
 
 ```
-$ ./seed-analyzer.sh [[[<COLLECTION>] <SEEDDIR>] <OPDIR>]
+$ ./seed-analyzer.sh [[[<COLLECTION>] <SEEDDIR>] <OUTDIR>]
 ```
 
-During the analysis INFO logs will be printed on the `STDERR` and summary will be printed on the `STDOUT` in TSV format.
+The script expects seed files named as `<COLLECTION>-<SOURCE>.txt` and placed in `<OUTDIR>`.
 
-Following is a sample run on the supplied default dataset (see the result summary in [covid19-results.tsv](covid19-results.tsv)):
+During the analysis logs will be printed on the `STDERR` and summary will be printed on the `STDOUT` in TSV format.
+
+Following is a sample run on the supplied default dataset (see the result summary in [COVID19-results.tsv](COVID19-results.tsv)):
 
 ```
-$ ./seed-analyzer.sh > covid19-results.tsv
-[INFO 2020/01/05 16:16:39.516906561] Creating output directory (if missing): derivatives
-[INFO 2020/01/05 16:16:39.524008376] Removing any COVID19 files from the output directory: derivatives/COVID19*
-[INFO 2020/01/05 16:16:39.529717942] Working on the seed file: seeds/COVID19-MC.txt
-[INFO 2020/01/05 16:16:39.532668857] Generating: derivatives/MC.SEED
-[INFO 2020/01/05 16:16:39.541187977] Generating: derivatives/MC.URIR
-[INFO 2020/01/05 16:16:39.548473605] Generating: derivatives/MC.SURT
-[INFO 2020/01/05 16:16:39.803861539] Generating: derivatives/MC.HxPx
-[INFO 2020/01/05 16:16:40.042699974] Generating: derivatives/MC.HxP1
-[INFO 2020/01/05 16:16:40.286714974] Generating: derivatives/MC.H3P0
-[INFO 2020/01/05 16:16:40.527016419] Generating: derivatives/MC.H1P0
-[INFO 2020/01/05 16:16:40.764062690] Generating: derivatives/MC.DDom
-[INFO 2020/01/05 16:16:41.006777539] Generating: derivatives/MC.DSub
-[INFO 2020/01/05 16:16:41.253191060] Generating: derivatives/MC.DPth
-[INFO 2020/01/05 16:16:41.510320078] Generating: derivatives/MC.DQry
-[INFO 2020/01/05 16:16:41.751722422] Generating: derivatives/MC.DIni
-[INFO 2020/01/05 16:16:41.996769297] Generating: derivatives/MC.W1.00
-[INFO 2020/01/05 16:16:42.039469315] Generating: derivatives/MC.W0.50
-[INFO 2020/01/05 16:16:42.082729299] Generating: derivatives/MC.W0.10
-[INFO 2020/01/05 16:16:42.125468785] Generating: derivatives/MC.W0.05
-[INFO 2020/01/05 16:16:42.169841378] Generating: derivatives/MC.W0.01
-[INFO 2020/01/05 16:16:42.213753906] Working on the seed file: seeds/COVID19-IIPC.txt
-[INFO 2020/01/05 16:16:42.214545332] Generating: derivatives/IIPC.SEED
-[INFO 2020/01/05 16:16:42.216703550] Generating: derivatives/IIPC.URIR
-[INFO 2020/01/05 16:16:42.220360683] Generating: derivatives/IIPC.SURT
-[INFO 2020/01/05 16:16:42.684722015] Generating: derivatives/IIPC.HxPx
-[INFO 2020/01/05 16:16:43.172521492] Generating: derivatives/IIPC.HxP1
-[INFO 2020/01/05 16:16:43.679644508] Generating: derivatives/IIPC.H3P0
-[INFO 2020/01/05 16:16:44.168507199] Generating: derivatives/IIPC.H1P0
-[INFO 2020/01/05 16:16:44.654158395] Generating: derivatives/IIPC.DDom
-[INFO 2020/01/05 16:16:45.186374826] Generating: derivatives/IIPC.DSub
-[INFO 2020/01/05 16:16:45.720202793] Generating: derivatives/IIPC.DPth
-[INFO 2020/01/05 16:16:46.266536921] Generating: derivatives/IIPC.DQry
-[INFO 2020/01/05 16:16:46.822604012] Generating: derivatives/IIPC.DIni
-[INFO 2020/01/05 16:16:47.387358110] Generating: derivatives/IIPC.W1.00
-[INFO 2020/01/05 16:16:47.547764541] Generating: derivatives/IIPC.W0.50
-[INFO 2020/01/05 16:16:47.705427046] Generating: derivatives/IIPC.W0.10
-[INFO 2020/01/05 16:16:47.869246177] Generating: derivatives/IIPC.W0.05
-[INFO 2020/01/05 16:16:48.032216691] Generating: derivatives/IIPC.W0.01
-[INFO 2020/01/05 16:16:48.200488006] Working on the seed file: seeds/COVID19-Merged.txt
-[INFO 2020/01/05 16:16:48.201379541] Generating: derivatives/Merged.SEED
-[INFO 2020/01/05 16:16:48.203634678] Generating: derivatives/Merged.URIR
-[INFO 2020/01/05 16:16:48.207408603] Generating: derivatives/Merged.SURT
-[INFO 2020/01/05 16:16:48.710420617] Generating: derivatives/Merged.HxPx
-[INFO 2020/01/05 16:16:49.228832509] Generating: derivatives/Merged.HxP1
-[INFO 2020/01/05 16:16:49.746158541] Generating: derivatives/Merged.H3P0
-[INFO 2020/01/05 16:16:50.262030376] Generating: derivatives/Merged.H1P0
-[INFO 2020/01/05 16:16:50.789695018] Generating: derivatives/Merged.DDom
-[INFO 2020/01/05 16:16:51.356660840] Generating: derivatives/Merged.DSub
-[INFO 2020/01/05 16:16:51.924729007] Generating: derivatives/Merged.DPth
-[INFO 2020/01/05 16:16:52.511895519] Generating: derivatives/Merged.DQry
-[INFO 2020/01/05 16:16:53.085960683] Generating: derivatives/Merged.DIni
-[INFO 2020/01/05 16:16:53.672334736] Generating: derivatives/Merged.W1.00
-[INFO 2020/01/05 16:16:53.841890599] Generating: derivatives/Merged.W0.50
-[INFO 2020/01/05 16:16:54.006421022] Generating: derivatives/Merged.W0.10
-[INFO 2020/01/05 16:16:54.182402959] Generating: derivatives/Merged.W0.05
-[INFO 2020/01/05 16:16:54.358845127] Generating: derivatives/Merged.W0.01
-[INFO 2020/01/05 16:16:54.536524814] Analyzing generated files to report summary
-[INFO 2020/01/05 16:16:54.971865802] All done!
+$ ./seed-analyzer.sh > COVID19-results.tsv
+[2020/03/05 04:02:56.515446531] Creating output directory (if missing): derivatives
+[2020/03/05 04:02:56.522586508] Removing any COVID19 files from the output directory: derivatives/COVID19*
+[2020/03/05 04:02:56.543699088] Copying seed file: seeds/COVID19-IIPC.txt -> derivatives/COVID19-IIPC.SEED
+[2020/03/05 04:02:56.556496611] Copying seed file: seeds/COVID19-MC.txt -> derivatives/COVID19-MC.SEED
+[2020/03/05 04:02:56.562211899] Merging all seed files: derivatives/COVID19-MERGED.SEED
+[2020/03/05 04:02:56.567781490] Generating: derivatives/COVID19-IIPC.URIR
+[2020/03/05 04:02:56.578039778] Generating: derivatives/COVID19-IIPC.SURT
+[2020/03/05 04:02:57.053687481] Generating: derivatives/COVID19-IIPC.HxPx
+[2020/03/05 04:02:57.554363438] Generating: derivatives/COVID19-IIPC.HxP1
+[2020/03/05 04:02:58.053235443] Generating: derivatives/COVID19-IIPC.H3P0
+[2020/03/05 04:02:58.561272261] Generating: derivatives/COVID19-IIPC.H1P0
+[2020/03/05 04:02:59.046740816] Generating: derivatives/COVID19-IIPC.DSuf
+[2020/03/05 04:02:59.537874478] Generating: derivatives/COVID19-IIPC.DDom
+[2020/03/05 04:03:00.032127705] Generating: derivatives/COVID19-IIPC.DSub
+[2020/03/05 04:03:00.540151417] Generating: derivatives/COVID19-IIPC.DPth
+[2020/03/05 04:03:01.106741006] Generating: derivatives/COVID19-IIPC.DQry
+[2020/03/05 04:03:01.729950334] Generating: derivatives/COVID19-IIPC.DIni
+[2020/03/05 04:03:02.289863021] Generating: derivatives/COVID19-IIPC.W1.00
+[2020/03/05 04:03:02.453761520] Generating: derivatives/COVID19-IIPC.W0.50
+[2020/03/05 04:03:02.612707480] Generating: derivatives/COVID19-IIPC.W0.10
+[2020/03/05 04:03:02.776813684] Generating: derivatives/COVID19-IIPC.W0.05
+[2020/03/05 04:03:02.946787853] Generating: derivatives/COVID19-IIPC.W0.01
+[2020/03/05 04:03:03.110765606] Generating: derivatives/COVID19-MC.URIR
+[2020/03/05 04:03:03.112608929] Generating: derivatives/COVID19-MC.SURT
+[2020/03/05 04:03:03.362475297] Generating: derivatives/COVID19-MC.HxPx
+[2020/03/05 04:03:03.604612484] Generating: derivatives/COVID19-MC.HxP1
+[2020/03/05 04:03:03.848976470] Generating: derivatives/COVID19-MC.H3P0
+[2020/03/05 04:03:04.085425880] Generating: derivatives/COVID19-MC.H1P0
+[2020/03/05 04:03:04.338921785] Generating: derivatives/COVID19-MC.DSuf
+[2020/03/05 04:03:04.578854463] Generating: derivatives/COVID19-MC.DDom
+[2020/03/05 04:03:04.816419088] Generating: derivatives/COVID19-MC.DSub
+[2020/03/05 04:03:05.061350836] Generating: derivatives/COVID19-MC.DPth
+[2020/03/05 04:03:05.314104397] Generating: derivatives/COVID19-MC.DQry
+[2020/03/05 04:03:05.566980215] Generating: derivatives/COVID19-MC.DIni
+[2020/03/05 04:03:05.814575338] Generating: derivatives/COVID19-MC.W1.00
+[2020/03/05 04:03:05.856997537] Generating: derivatives/COVID19-MC.W0.50
+[2020/03/05 04:03:05.900478669] Generating: derivatives/COVID19-MC.W0.10
+[2020/03/05 04:03:05.942494229] Generating: derivatives/COVID19-MC.W0.05
+[2020/03/05 04:03:05.983867185] Generating: derivatives/COVID19-MC.W0.01
+[2020/03/05 04:03:06.030947357] Generating: derivatives/COVID19-MERGED.URIR
+[2020/03/05 04:03:06.034962205] Generating: derivatives/COVID19-MERGED.SURT
+[2020/03/05 04:03:06.529346355] Generating: derivatives/COVID19-MERGED.HxPx
+[2020/03/05 04:03:07.049847229] Generating: derivatives/COVID19-MERGED.HxP1
+[2020/03/05 04:03:07.579511252] Generating: derivatives/COVID19-MERGED.H3P0
+[2020/03/05 04:03:08.093925224] Generating: derivatives/COVID19-MERGED.H1P0
+[2020/03/05 04:03:08.628848084] Generating: derivatives/COVID19-MERGED.DSuf
+[2020/03/05 04:03:09.124614405] Generating: derivatives/COVID19-MERGED.DDom
+[2020/03/05 04:03:09.637375394] Generating: derivatives/COVID19-MERGED.DSub
+[2020/03/05 04:03:10.160752675] Generating: derivatives/COVID19-MERGED.DPth
+[2020/03/05 04:03:10.776821303] Generating: derivatives/COVID19-MERGED.DQry
+[2020/03/05 04:03:11.370664911] Generating: derivatives/COVID19-MERGED.DIni
+[2020/03/05 04:03:11.956497275] Generating: derivatives/COVID19-MERGED.W1.00
+[2020/03/05 04:03:12.124645260] Generating: derivatives/COVID19-MERGED.W0.50
+[2020/03/05 04:03:12.311109998] Generating: derivatives/COVID19-MERGED.W0.10
+[2020/03/05 04:03:12.496881028] Generating: derivatives/COVID19-MERGED.W0.05
+[2020/03/05 04:03:12.674768136] Generating: derivatives/COVID19-MERGED.W0.01
+[2020/03/05 04:03:12.854050603] Analyzing derived files to report summary
+[2020/03/05 04:03:13.272577315] All done!
 ```
