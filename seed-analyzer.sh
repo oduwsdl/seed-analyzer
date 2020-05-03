@@ -1,51 +1,70 @@
 #!/usr/bin/env bash
 
-# Exit immediately if anything goes wrong
+# Configure script behavior and environment
 set -e
-
-# Set locale
+shopt -s nullglob
 export LC_ALL=C
 
-# Define a utility function to log on STDERR
-log() {
-    dt=$(date '+%Y/%d/%m %H:%M:%S.%N');
-    printf "[INFO $dt] %s\n" "$*" >&2
-}
-
-# CLI arguments with defaults
-coll=${1:-COVID19}
-seeddir=${2:-seeds}
-opdir=${3:-derivatives}
-
 # Configurable options
-src=(MC IIPC Merged)
 profile=(HxPx HxP1 H3P0 H1P0 DSuf DDom DSub DPth DQry DIni)
 weight=(1.00 0.50 0.10 0.05 0.01)
 
-log "Creating output directory (if missing): $opdir"
-mkdir -p $opdir
-log "Removing any $coll files from the output directory: $opdir/$coll*"
-rm -rf $opdir/$coll*
+# CLI arguments with defaults and their derivatives
+coll=${1:-COVID19}
+seeddir=${2:-seeds}
+outdir=${3:-derivatives}
+outprefix=$outdir/$coll
 
+# Define a utility function to log on STDERR
+log() {
+    dt=$(date '+%Y/%d/%m %H:%M:%S.%N')
+    printf "[$dt] %s\n" "$*" >&2
+}
+
+log "Creating output directory (if missing): $outdir"
+mkdir -p $outdir
+log "Removing any $coll files from the output directory: $outdir/$coll*"
+rm -rf $outprefix-*
+
+# Copy collection seed files and identify sources
+src=()
+for f in $seeddir/$coll-*.txt
+do
+    s=$(echo $f | sed "s|$seeddir/$coll-\(.*\)\.txt|\1|")
+    opf=$outprefix-$s.SEED
+    log "Copying seed file: $f -> $opf"
+    cp $f $opf
+    src+=($s)
+done
+
+# Merge if more than one collection seed files
+if (( ${#src[@]} > 1 ))
+then
+    s=MERGED
+    opf=$outprefix-$s.SEED
+    log "Merging all seed files: $opf"
+    cat $seeddir/$coll-*.txt > $opf
+    src+=($s)
+fi
+
+# Generate derived files
 for s in ${src[@]}
 do
-    seedf=$seeddir/$coll-$s.txt
-    opfn=$opdir/$s
+    opfn=$outprefix-$s
 
-    log "Working on the seed file: $seedf"
-    log "Generating: $opfn.SEED"
-    cp $seedf $opfn.SEED
     log "Generating: $opfn.URIR"
     sort -u $opfn.SEED > $opfn.URIR
     log "Generating: $opfn.SURT"
     scripts/surter.py $opfn.URIR | sort -u > $opfn.SURT
 
+    # Varants based on URI profiling policies
     for p in ${profile[@]}
     do
         log "Generating: $opfn.$p"
         scripts/uri_key_generator.py $p $opfn.URIR | sed 's|[,)/*]\+$||' | sort -u > $opfn.$p
     done
 
+    # Varants based on URI rollup weights
     for w in ${weight[@]}
     do
         log "Generating: $opfn.W$w"
@@ -55,8 +74,7 @@ do
     done
 done
 
-log "Analyzing generated files to report summary"
-
+log "Analyzing derived files to report summary"
 echo -n "Variant"
 for s in ${src[@]}
 do
@@ -64,14 +82,14 @@ do
 done
 echo
 
+# Combine all variants and iterate over to summarize them
 variant=(SEED URIR SURT ${profile[@]} ${weight[@]/#/W})
-
 for v in ${variant[@]}
 do
     echo -n $v
     for s in ${src[@]}
     do
-        opf=$opdir/$s.$v
+        opf=$outprefix-$s.$v
         read l w c f <<< $(wc $opf)
         z=`gzip -c $opf | wc -c`
         echo -ne "\t$l\t$c\t$z"
