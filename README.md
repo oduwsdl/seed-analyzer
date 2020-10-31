@@ -6,7 +6,7 @@ COVID-19 seeds from Micro Collections and IIPC are included as an example.
 To perform collection seed analysis first ensure that the needed Python packages are installed:
 
 ```
-$ pip install tldextract surt
+$ pip install -r requirements.txt
 ```
 
 Then run the analyzer script with optional arguments as shown below:
