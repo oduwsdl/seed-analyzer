@@ -6,8 +6,8 @@ shopt -s nullglob
 export LC_ALL=C
 
 # Configurable options
-profile=(HxPx HxP1 H3P0 H1P0 DSuf DDom DSub DPth DQry DIni)
-weight=(1.00 0.50 0.10 0.05 0.01)
+profile=(HxPx HxP1 HxP0 H3P0 H2P0 H1P0 DSuf DDom DSub DPth DQry DIni)
+weight=(2.00 1.00 0.50 0.10 0.05 0.01)
 
 # CLI arguments with defaults and their derivatives
 coll=${1:-COVID19}
