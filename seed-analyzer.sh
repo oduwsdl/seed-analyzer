@@ -17,7 +17,7 @@ outprefix=$outdir/$coll
 
 # Define a utility function to log on STDERR
 log() {
-    dt=$(date '+%Y/%d/%m %H:%M:%S.%N')
+    dt=$(date '+%Y/%m/%d %H:%M:%S.%N')
     printf "[$dt] %s\n" "$*" >&2
 }
 
